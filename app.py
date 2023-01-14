@@ -4,6 +4,9 @@ from flask import *
 app=Flask(__name__)
 app.secret_key="blabkajajs82"
 
+@app.route("/")
+def home():
+    return "Vaibhav" 
 @app.route("/api")
 def api():
     ip=request.args.get("ip")
