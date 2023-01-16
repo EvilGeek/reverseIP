@@ -1,4 +1,4 @@
-import requests, time, os, socket, re, urllib3, sys, random
+import requests, time, os, threading, socket, re, urllib3, sys, random
 from bs4 import BeautifulSoup
 
 urllib3.disable_warnings()
@@ -15,7 +15,8 @@ def api():
     ip=request.args.get("ip")
     print(ip)
     if ip:
-        data=reverse(ip)
+        data=[]
+        threading.Thread(target=reverse, args=(ip))
       #  print(data)
         if data==None:
             return jsonify(status=False, data=None)
