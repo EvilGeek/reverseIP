@@ -15,12 +15,7 @@ def api():
     ip=request.args.get("ip")
     print(ip)
     if ip:
-        d1=t1(ip)
-        d2=t2(ip)
-        d3=t3(ip)
-        d4=t4(ip)
-        data=[]
-        threading.Thread(target=reverse, args=(ip, data, d1, d2, d3, d4))
+        data=reverse(ip)
         print(data)
         if data==None:
             return jsonify(status=False, data=None)
@@ -31,7 +26,12 @@ def api():
     else:
         return jsonify(status=False, data=None)
 
-def reverse(ip, data, d1, d2, d3, d4):
+def reverse(ip):
+    data=[]
+    d1=t1(ip)
+    d2=t2(ip)
+    d3=t3(ip)
+    d4=t4(ip)
     for i in d1:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
@@ -44,6 +44,7 @@ def reverse(ip, data, d1, d2, d3, d4):
     for i in d4:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
+    return data
 
 def t3(ip):
     u="https://domains.yougetsignal.com/domains.php"
