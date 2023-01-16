@@ -72,6 +72,7 @@ def t3(ip):
     req=requests.post(u, headers=h, data=post, verify=False).json()
     #print(req)
     reip=[]
+    d=[]
     if req.get("status")=="Success":
         d=req.get("domainArray")
     for j in d:
