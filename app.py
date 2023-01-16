@@ -10,7 +10,7 @@ app.secret_key="blabkajajs82"
 @app.route("/")
 def home():
     return render_template("vindex.html")
-@app.route("/api")
+@app.route("/api/reverseip")
 def api():
     ip=request.args.get("ip")
     print(ip)
