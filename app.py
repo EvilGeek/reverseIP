@@ -14,7 +14,7 @@ def home():
 def api():
     ip=request.args.get("ip")
     print(ip)
-    if ip:
+    if ip and len(ip.strip().split("."))==4:
         data=reverse(ip)
         print(data)
         if data==None:
