@@ -17,7 +17,7 @@ def api():
     if ip:
         data=[]
         threading.Thread(target=reverse, args=(ip))
-      #  print(data)
+        print(data)
         if data==None:
             return jsonify(status=False, data=None)
         elif data==[]:
