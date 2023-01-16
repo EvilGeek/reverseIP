@@ -9,14 +9,14 @@ app.secret_key="blabkajajs82"
 
 @app.route("/")
 def home():
-    return "Vaibhav" 
+    return render_template("vindex.html")
 @app.route("/api")
 def api():
     ip=request.args.get("ip")
     print(ip)
     if ip:
         data=[]
-        threading.Thread(target=reverse, args=(ip))
+        threading.Thread(target=reverse, args=(ip, data))
         print(data)
         if data==None:
             return jsonify(status=False, data=None)
@@ -27,12 +27,11 @@ def api():
     else:
         return jsonify(status=False, data=None)
 
-def reverse(ip):
+def reverse(ip, data):
     d1=t1(ip)
     d2=t2(ip)
     d3=t3(ip)
     d4=t4(ip)
-    data=[]
     for i in d1:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
