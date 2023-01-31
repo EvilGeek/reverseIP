@@ -205,8 +205,8 @@ def bypassURL(url):
         return None, "ERROR: The URL you have send is not supported yet."
     except bypasser.main.UrlConnectionError:
         return None, "ERROR: The URL you have send is unreachable."
-    except Exception as e:
-        return None, f"ERROR: {str(e)}"
+    except Exception as er:
+        return None, str(er)
 
 @app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
