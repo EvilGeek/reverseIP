@@ -206,7 +206,7 @@ def bypassURL(url):
     except bypasser.main.UrlConnectionError:
         return None, "ERROR: The URL you have send is unreachable."
     except Exception as e:
-        return None, e
+        return None, str(e)
 
 @app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
@@ -217,6 +217,7 @@ def apibypassurl():
         if url.startswith("https://")==False and url.startswith("http://")==False:
             url="http://"+url
         bypassed, msg=bypassURL(url)
+        print(url)
         print(bypassed)
         if bypassed!=None:
             return jsonify(status=True,url=bypassed, message=msg)
