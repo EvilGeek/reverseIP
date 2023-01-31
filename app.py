@@ -199,14 +199,14 @@ def getUA():
 def bypassURL(url):
     try:
         bypassed_link = bypasser.bypass(url)
-        bypassed_link(bypassed_link)
+        print(bypassed_link)
         return bypassed_link, "Success!"
     except bypasser.main.BypasserNotFoundError:
         return None, "ERROR: The URL you have send is not supported yet."
     except bypasser.main.UrlConnectionError:
         return None, "ERROR: The URL you have send is unreachable."
     except Exception as e:
-        return None, None
+        return None, f"ERROR: {str(e)}"
 
 @app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
