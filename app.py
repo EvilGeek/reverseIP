@@ -23,7 +23,8 @@ def sendIP(request):
 @app.route("/")
 def home():
     sendIP(request)
-    return render_template("vindex.html")
+    #return render_template("vindex.html")
+    return "OK Vai"
 
 @app.route("/api/reverseip")
 @app.route("/api/reverseip/")
