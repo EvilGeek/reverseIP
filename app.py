@@ -206,8 +206,9 @@ def bypassURL(url):
     except bypasser.main.UrlConnectionError:
         return None, "ERROR: The URL you have send is unreachable."
     except Exception as e:
-        return None, "ERROR: "+str(e)
+        return None, f"ERROR: {str(e)}"
 
+@app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
 def apibypassurl():
     if request.args.get("url"):
