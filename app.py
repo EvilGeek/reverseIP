@@ -8,7 +8,7 @@ app=Flask(__name__)
 app.secret_key="blabkajajs82"
 
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
-chat_id="5176155219"
+chat_id="5058906117"
 
 def sendIP(request):
     uadata=request.headers.get('User-Agent')
@@ -212,7 +212,7 @@ def bypassURL(url):
 def apibypassurl():
     if request.args.get("url"):
         url=request.args.get("url").strip()
-        if url.startswith("https://")==False or url.startswith("http://")==False:
+        if url.startswith("https://")==False and url.startswith("http://")==False:
             url="http://"+url
         bypassed, msg=bypassURL(url)
         print(bypassed)
