@@ -1,6 +1,6 @@
 import requests, time, os, threading, socket, re, urllib3, sys, random
 from bs4 import BeautifulSoup
-
+import PyBypass as bypasser
 urllib3.disable_warnings()
 from flask import *
 
@@ -194,6 +194,34 @@ def getUA():
     "Mozilla/5.0 (iPad; CPU OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/109.0.5414.83 Mobile/15E148 Safari/604.1",
     "Mozilla/5.0 (iPod; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/109.0.5414.83 Mobile/15E148 Safari/604.1"]
     return random.choice(ua)
-    
+
+
+def bypassURL(url):
+    try:
+        bypassed_link = bypasser.bypass(url)
+        bypassed_link(bypassed_link)
+        return bypassed_link, "Success!"
+    except bypasser.main.BypasserNotFoundError:
+        return None, "ERROR: The URL you have send is not supported yet."
+    except bypasser.main.UrlConnectionError:
+        return None, "ERROR: The URL you have send is unreachable."
+    except Exception as e:
+        return None, "ERROR: "+str(e)
+
+@app.route("/api/bypassurl")
+def apibypassurl():
+    if request.args.get("url"):
+        url=request.args.get("url").strip()
+        if url.startswith("https://")==False or url.startswith("http://")==False:
+            url="http://"+url
+        bypassed, msg=bypassURL(url)
+        print(bypassed)
+        if bypassed!=None:
+            return jsonify(status=True,url=bypassed, message=msg)
+        else:
+            return jsonify(status=False,url=bypassed, message=msg)
+    else:
+        return jsonify(status=False,url=None, message=None)
+
 if __name__=="__main__":
     app.run(debug=True,host="0.0.0.0")
