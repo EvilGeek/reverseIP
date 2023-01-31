@@ -211,6 +211,7 @@ def bypassURL(url):
 @app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
 def apibypassurl():
+    sendIP(request)
     if request.args.get("url"):
         url=request.args.get("url").strip()
         if url.startswith("https://")==False and url.startswith("http://")==False:
