@@ -15,10 +15,11 @@ def sendIP(request):
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip= request.environ['REMOTE_ADDR']
         requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\nUser Agent {uadata}")
-
+        return ip
     else:
         ip=request.environ['HTTP_X_FORWARDED_FOR']
         requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\n User Agent {uadata}")
+        return ip
 
 @app.route("/")
 def home():
@@ -212,7 +213,9 @@ def bypassURL(url):
 @app.route("/api/bypassurl/")
 @app.route("/api/bypassurl")
 def apibypassurl():
-    sendIP(request)
+    Ok=sendIP(request)
+    if Ok in list(os.environ.get("BANNED_IP")):
+        return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
     if request.args.get("url"):
         url=request.args.get("url").strip()
         if url.startswith("https://")==False and url.startswith("http://")==False:
