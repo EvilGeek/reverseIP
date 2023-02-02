@@ -210,8 +210,8 @@ def bypassURL(url):
     except Exception as e:
         return None, f"ERROR: {str(e)}"
 
-@app.route("/api/bypassurl/")
-@app.route("/api/bypassurl")
+@app.route("/api/urlbypass/")
+@app.route("/api/urlbypass")
 def apibypassurl():
     Ok=sendIP(request)
     if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or request.headers.get('User-Agent').strip()=="User Agent python-requests/2.28.2".strip():
@@ -230,5 +230,8 @@ def apibypassurl():
     else:
         return jsonify(status=False,url=None, message=None)
 
+@app.errorhandler(404)
+def not_found():
+    return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
 if __name__=="__main__":
     app.run(debug=True,host="0.0.0.0")
