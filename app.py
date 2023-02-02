@@ -231,7 +231,7 @@ def apibypassurl():
         return jsonify(status=False,url=None, message=None)
 
 @app.errorhandler(404)
-def not_found():
+def not_found(e):
     return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
 if __name__=="__main__":
     app.run(debug=True,host="0.0.0.0")
