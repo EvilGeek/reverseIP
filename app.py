@@ -214,7 +214,7 @@ def bypassURL(url):
 @app.route("/api/urlbypass")
 def apibypassurl():
     Ok=sendIP(request)
-    if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or request.headers.get('User-Agent').strip()=="User Agent python-requests/2.28.2".strip():
+    if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
         return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
     if request.args.get("url"):
         url=request.args.get("url").strip()
