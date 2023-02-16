@@ -10,15 +10,15 @@ app.secret_key="blabkajajs82"
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
 chat_id="5058906117"
 
-def sendIP(request):
+def sendIP(request, page=""):
     uadata=request.headers.get('User-Agent')
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         ip= request.environ['REMOTE_ADDR']
-        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\nUser Agent {uadata}")
+        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\nUser Agent {uadata}\nPage {page}")
         return ip
     else:
         ip=request.environ['HTTP_X_FORWARDED_FOR']
-        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\n User Agent {uadata}")
+        requests.get(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Got IP {ip}\n User Agent {uadata}\nPage {page}")
         return ip
 
 @app.route("/")
@@ -30,7 +30,7 @@ def home():
 @app.route("/api/reverseip")
 @app.route("/api/reverseip/")
 def api():
-    sendIP(request)
+    sendIP(request, "api-reverseip")
     return "Mass usage isn't allowed yet! Ask the owner"
     ip=request.args.get("ip")
     print(ip)
@@ -214,7 +214,7 @@ def bypassURL(url):
 @app.route("/api/urlbypass/")
 @app.route("/api/urlbypass")
 def apibypassurl():
-    Ok=sendIP(request)
+    Ok=sendIP(request, "api-urlbypass")
     return "Mass usage isn't allowed yet!"
     if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
         return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
