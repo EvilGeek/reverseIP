@@ -31,7 +31,7 @@ def home():
 @app.route("/api/reverseip/")
 def api():
     sendIP(request, "api-reverseip")
-    return "Mass usage isn't allowed yet! Ask the owner"
+    #return "Mass usage isn't allowed yet! Ask the owner"
     ip=request.args.get("ip")
     print(ip)
     if ip and len(ip.strip().split("."))==4:
@@ -215,7 +215,7 @@ def bypassURL(url):
 @app.route("/api/urlbypass")
 def apibypassurl():
     Ok=sendIP(request, "api-urlbypass")
-    return "Mass usage isn't allowed yet!"
+   # return "Mass usage isn't allowed yet!"
     if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
         return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
     if request.args.get("url"):
