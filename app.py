@@ -216,8 +216,8 @@ def bypassURL(url):
 def apibypassurl():
     Ok=sendIP(request, "api-urlbypass")
    # return "Mass usage isn't allowed yet!"
-    if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
-        return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
+  #  if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
+   #     return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
     if request.args.get("url"):
         url=request.args.get("url").strip()
         if url.startswith("https://")==False and url.startswith("http://")==False:
