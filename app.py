@@ -232,6 +232,46 @@ def apibypassurl():
     else:
         return jsonify(status=False,url=None, message=None)
 
+
+def getASN(ip):
+    try:
+        h={"Host": "ipwhois.app",
+    "Connection": "keep-alive",
+
+    "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36",
+    "sec-ch-ua-platform": "Android",
+    "Accept": "*/*",
+    "Origin": "https://ipwhois.io",
+    "Sec-Fetch-Site": "cross-site",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Dest": "empty",
+    "Referer": "https://ipwhois.io/",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "en-IN,en;q=0.9"}
+        req=requests.get(f"https://ipwhois.app/widget.php?ip={ip}&lang=en", headers=h, verify=False).json()
+        if req.get("success")!=True:
+            return None
+        else:
+            return req.get("connection").get("asn")
+    except Exception as e:
+        print(e)
+        return None
+
+
+@app.route("/api/asn")
+@app.route("/api/asn")
+def asnApi():
+    sendIP(request, "api-asn")
+    if request.args.get("ip"):
+        ip=request.args.get("ip")
+        asn=getASN(ip)
+        if asn!=None:
+            return jsonify(status=True, asn=asn)
+        else:
+            return jsonify(status=False, asn=None)
+    else:
+        return jsonify(status=False, asn=None)
+
 @app.errorhandler(404)
 def not_found(e):
     return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
