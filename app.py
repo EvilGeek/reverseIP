@@ -1,3 +1,6 @@
+import requests, re 
+
+
 import requests, time, os, threading, socket, re, urllib3, sys, random
 from bs4 import BeautifulSoup
 import PyBypass as bypasser
@@ -9,6 +12,7 @@ app.secret_key="blabkajajs82"
 
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
 chat_id="5058906117"
+dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo)\b"
 
 def sendIP(request, page=""):
     uadata=request.headers.get('User-Agent')
@@ -52,6 +56,7 @@ def reverse(ip):
     d2=t2(ip)
     d3=t3(ip)
     d4=t4(ip)
+    d5=t5(ip)
     for i in d1:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
@@ -62,6 +67,9 @@ def reverse(ip):
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
     for i in d4:
+        if i not in data and "google" not in i and "cloudflare" not in i:
+            data.append(i)
+    for i in d5:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
     return data
@@ -180,12 +188,37 @@ def t4(ip):
     
     req=requests.get("https://askdns.com/ip/"+ip, headers=h).text
     #print(req)
-    data=re.findall(regex, req)
+    data=re.findall(dre, req)
     reip=data
     if reip!=[]:
         return reip
     else:
         return []
+
+
+
+
+def t5(ip):
+    url=f"https://viewdns.info/reverseip/?host={ip}&t=1"
+    h={
+    "Host": "viewdns.info",
+    "cache-control": "max-age\u003d0",
+    "sec-ch-ua": "\"Not?A_Brand\";v\u003d\"8\", \"Chromium\";v\u003d\"108\", \"Google Chrome\";v\u003d\"108\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Linux\"",
+    "dnt": "1",
+    "upgrade-insecure-requests": "1",
+    "user-agent": getUA(),
+    "accept": "text/html,application/xhtml+xml,application/xml;q\u003d0.9,image/avif,image/webp,image/apng,*/*;q\u003d0.8,application/signed-exchange;v\u003db3;q\u003d0.9",
+    "sec-fetch-site": "none",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-user": "?1",
+    "sec-fetch-dest": "document",
+    "accept-language": "en-IN,en-GB;q\u003d0.9,en-US;q\u003d0.8,en;q\u003d0.7"
+    }
+    req=requests.get(url, headers=h).text
+    return re.findall(dre, req)
+
 
 def getUA():
     ua=["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
@@ -277,3 +310,4 @@ def not_found(e):
     return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
 if __name__=="__main__":
     app.run(debug=True,host="0.0.0.0")
+    
