@@ -305,6 +305,54 @@ def asnApi():
     else:
         return jsonify(status=False, asn=None)
 
+
+
+
+def checkText(text):
+    h={
+    "Host": "api.sapling.ai",
+    "Connection": "keep-alive",
+    "Content-Length": "645",
+    "sec-ch-ua": "\"Not?A_Brand\";v\u003d\"8\", \"Chromium\";v\u003d\"108\", \"Google Chrome\";v\u003d\"108\"",
+    "DNT": "1",
+    "sec-ch-ua-mobile": "?1",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36",
+    "Content-Type": "application/json",
+    "Accept": "application/json, text/javascript, */*; q\u003d0.01",
+    "sec-ch-ua-platform": "\"Android\"",
+    "Origin": "https://sapling.ai",
+    "Sec-Fetch-Site": "same-site",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Dest": "empty",
+    "Referer": "https://sapling.ai/",
+    "Accept-Language": "en-IN,en-GB;q\u003d0.9,en-US;q\u003d0.8,en;q\u003d0.7"
+    }
+    
+    d='{"text": "'+text+'"}'
+    req=requests.post("https://api.sapling.ai/api/v1/classify_generated_tokens_nk", headers=h, data=d, verify=False).json()
+    prob=req["overall_prob"]
+    #print(prob)
+    prob=round(prob * 100, 2)
+    return str(prob)
+
+
+def readyText(text):
+    return text.replace("\n", "\\n")
+
+
+
+@app.route("/api/aidetect")
+@app.route("/api/aidetect/")
+def apiAIdetect():
+    sendIP(request, "api-aidetect")
+    if request.args.get("text"):
+        text=request.args.get("text")
+        text=readyText(text)
+        prob=checkText(text)
+        return jsonify(status=True, prob=prob)
+    else:
+        return jsonify(status=False, prob=None)
+
 @app.errorhandler(404)
 def not_found(e):
     return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
