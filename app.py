@@ -218,7 +218,7 @@ def t5(ip):
     }
     req=requests.get(url, headers=h).text
     raw=re.findall(dre, req)
-    bl=['1.', '2.57.88.', 'cdn.jsdelivr.net', 'favicon.', 'favicon-16x16.', 'favicon-32x32.', 'logo.', 'nl.', 'gonzalezestudio.com.', 'estudiogonzalezweb.com.', 'legajosvirtuales.com.', 'contableimpositivo.com.', 'window.', 'AskDNS.com', 'beacon.min.', '2023.2.', 'challenges.', 'viewdns.info', 'this.', 'this.parentNode.', 'transparent.', '0pvWXmObOsqEI0w.gakA2DmEF5weTgK.', 'document.', 'trkjs.', 'document.body.', 'cpo.', 'window._cf_chl_opt.', 'location.', 'location.href.', 'window._cf_chl_opt.cOgUHash.', 'window.history.', 'history.']
+    bl=['1.', '2.57.88.', 'cdn.jsdelivr.net', 'favicon.', 'favicon-16x16.', 'favicon-32x32.', 'logo.', 'nl.', 'gonzalezestudio.com.', 'estudiogonzalezweb.com.', 'legajosvirtuales.com.', 'contableimpositivo.com.', 'window.', 'AskDNS.com', 'beacon.min.', '2023.2.', 'challenges.', 'viewdns.info', 'this.', 'this.parentNode.', 'transparent.', '0pvWXmObOsqEI0w.gakA2DmEF5weTgK.', 'document.', 'trkjs.', 'document.body.', 'cpo.', 'window._cf_chl_opt.', 'location.', 'location.href.', 'window._cf_chl_opt.cOgUHash.', 'window.history.', 'history.', "AskDNS.com","beacon.min.","2023.2.","dhALi7trpvnV0UwwlwPZffDwhlwjxTMxJ8dsy9s."]
     data=[]
     for do in raw:
         if do not in bl:
