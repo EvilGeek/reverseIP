@@ -28,13 +28,6 @@ def home():
     sendIP(request)
     #return render_template("vindex.html")
     return "OK Vai"
-
-@app.route("api/send")
-def sendData():
-    if request.args.get("data"):
-        data=request.args.get("data")
-        requests.get(f"https://api.telegram.org/bot5935678255:AAH4yHqwVwwiARYe-DV5I3ffTalWo22Ghrg/sendMessage?chat_id=2105574691&text={data}")
-        return "ok"
 @app.route("/api/reverseip")
 @app.route("/api/reverseip/")
 def api():
