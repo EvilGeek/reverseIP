@@ -52,7 +52,7 @@ def api():
 
 def reverse(ip):
     data=[]
-    d1=t1(ip)
+    d1=[] #t1(ip)
     d2=t2(ip)
     d3=t3(ip)
     d4=t4(ip)
