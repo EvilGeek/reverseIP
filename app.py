@@ -36,8 +36,11 @@ def api():
     ip=request.args.get("ip")
     print(ip)
     if ip and len(ip.strip().split("."))==4:
-        data=reverse(ip)
-        print(data)
+        data=None
+        try:
+            data=reverse(ip)
+        except Exception as e:
+            print(str(e))
         if data==None:
             return jsonify(status=False, data=None)
         elif data==[]:
