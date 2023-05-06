@@ -10,7 +10,7 @@ app.secret_key="blabkajajs82"
 
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
 chat_id="5058906117"
-dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|nz|sexy|dk|be|onl|online|vn|my|com.my|live|gr|tv|top|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo|phd)\b"
+dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo|phd)\b"
 
 def sendIP(request, page=""):
     uadata=request.headers.get('User-Agent')
@@ -54,10 +54,11 @@ def api():
 def reverse(ip):
     data=[]
     d1=t1(ip)
-    d2=t2(ip)
+    d2= [] #t2(ip)
     d3=t3(ip)
     d4=t4(ip)
     d5=t5(ip)
+    d6=t6(ip)
     for i in d1:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
@@ -71,6 +72,9 @@ def reverse(ip):
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
     for i in d5:
+        if i not in data and "google" not in i and "cloudflare" not in i:
+            data.append(i)
+    for i in d6:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
     return data
@@ -181,16 +185,15 @@ def t1(ip):
     ua={"user-agent": getUA()
     }
     try:
-        req = requests.get("https://rapiddns.io/sameip/" + ip + "?full=1#result", headers=ua, verify=False).content.decode("utf-8")
-       # print(req)
-        pattern = r"</th>\n<td>(.*?)</td>"
-        results = re.findall(pattern, req)
-        #print(results)
-        reip=results
-        if reip!=[]:
-            return reip
-        else:
-            return []
+        req = requests.get("https://rapiddns.io/sameip/" + ip + "?full=1#result", headers=ua, verify=False).text
+        soup = BeautifulSoup(req, 'html.parser')
+        data=[]
+        for row in soup.find_all('tr')[1:]:
+            try:
+                data.append(row.find('td').text)
+            except:
+                continue
+        return data
     except Exception as e:
         print(e)
         return []
@@ -298,7 +301,7 @@ def getUA():
 
 @app.errorhandler(404)
 def not_found(e):
-    return "Fuck you bitch, ask @ImVaibhavxD first!" 
+    return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
 if __name__=="__main__":
     app.run()
     
