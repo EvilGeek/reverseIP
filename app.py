@@ -10,7 +10,7 @@ app.secret_key="blabkajajs82"
 
 bot_token="5646928081:AAHgBsRYYNmoSvO5ze3nc4R0AeFY5D8i-cU" 
 chat_id="5058906117"
-dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo)\b"
+dre=r"\w+(?:[.-]\w+)*\.(?:com|in|cc|ly|au|org|net|uk|it|jp|cn|co|co.in|tk|hu|at|io|be|info|co.at|com.au|ca|tech|mobi|tr|com.tr|soy|eu|us|ru|de|se|company|co.uk|fr|sbs|pt|dk|pk|cv.ua|ua|pl|xyz|nl|co.nz|army|gov|gov.in|tc|tt|fuck|just|hack|life|new|cs|world|you|love|dog|host|ip||wtf|es|arpa|pro|noob|app|gq|im|pw|tv|cloud|ml|ga|biz|vip|me|you|ooo|phd)\b"
 
 def sendIP(request, page=""):
     uadata=request.headers.get('User-Agent')
@@ -28,6 +28,7 @@ def home():
     sendIP(request)
     #return render_template("vindex.html")
     return "OK Vai"
+
 @app.route("/api/reverseip")
 @app.route("/api/reverseip/")
 def api():
@@ -73,6 +74,33 @@ def reverse(ip):
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
     return data
+
+
+def t6(ip):
+    u="https://api.hackertarget.com/reverseiplookup/?q="+ip 
+    h={
+    "sec-ch-ua": "\"Not?A_Brand\";v\u003d\"8\", \"Chromium\";v\u003d\"108\", \"Google Chrome\";v\u003d\"108\"",
+    "dnt": "1",
+    "sec-ch-ua-mobile": "?1",
+    "user-agent": getUA(),
+    "accept": "text/javascript, text/html, application/xml, text/xml, */*",
+    "x-prototype-version": "1.6.0",
+    "x-requested-with": "XMLHttpRequest",
+    "sec-ch-ua-platform": "\"Android\"",
+    "origin": "https://api.hackertarget.com",
+    "sec-fetch-site": "same-site",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
+    "referer": "https://api.hackertarget.com/",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-IN,en;q\u003d0.9"
+        
+    }
+    try:
+        return requests.get(url, headers=h).text.split("\n")
+    except Exception as e:
+        print(e)
+        return []
 
 def t3(ip):
     u="https://domains.yougetsignal.com/domains.php"
@@ -188,11 +216,28 @@ def t4(ip):
     
     req=requests.get("https://askdns.com/ip/"+ip, headers=h).text
     #print(req)
-    data=re.findall(dre, req)
-    reip=data
-    if reip!=[]:
-        return reip
-    else:
+   # data=re.findall(dre, req)
+    try:
+        soup = BeautifulSoup(req, "html.parser")
+        domain_list = soup.find_all("div", {"class": "flex two"})
+        domain_list=domain_list[len(domain_list)-1]
+        raw=domain_list.find_all("div")
+        domain_names=[]
+        for ok in range(0, len(raw)-1, 2):
+            try:
+                domain_names.append(domain_list.find_all("div")[ok].text.strip())
+            except:
+                continue
+
+        data=[]
+        for ok in domain_names:
+            if ok not in ["Domain Name", "Last Updated"] and len(ok.split("."))>1:
+                data.append(ok)
+        #print(data)
+        return data
+
+    except Exception as e :
+        print(e)
         return []
 
 
@@ -217,13 +262,25 @@ def t5(ip):
     "accept-language": "en-IN,en-GB;q\u003d0.9,en-US;q\u003d0.8,en;q\u003d0.7"
     }
     req=requests.get(url, headers=h).text
-    raw=re.findall(dre, req)
-    bl=['1.', '2.57.88.', 'cdn.jsdelivr.net', 'favicon.', 'favicon-16x16.', 'favicon-32x32.', 'logo.', 'nl.', 'gonzalezestudio.com.', 'estudiogonzalezweb.com.', 'legajosvirtuales.com.', 'contableimpositivo.com.', 'window.', 'AskDNS.com', 'beacon.min.', '2023.2.', 'challenges.', 'viewdns.info', 'this.', 'this.parentNode.', 'transparent.', '0pvWXmObOsqEI0w.gakA2DmEF5weTgK.', 'document.', 'trkjs.', 'document.body.', 'cpo.', 'window._cf_chl_opt.', 'location.', 'location.href.', 'window._cf_chl_opt.cOgUHash.', 'window.history.', 'history.', "AskDNS.com","beacon.min.","2023.2.","dhALi7trpvnV0UwwlwPZffDwhlwjxTMxJ8dsy9s."]
-    data=[]
-    for do in raw:
-        if do not in bl:
-            data.append(do)
-    return data
+    try:
+        soup = BeautifulSoup(req, "html.parser")
+        tables = soup.find_all("table")
+        table = tables[2] # Select the second table (index 1)
+        table_data = []
+        rows=table.find_all("tr")
+        for row in rows:
+            row_data = []
+            try:
+                for cell in row.find_all("td"):
+                    row_data.append(cell.text.strip())
+                table_data.append(row_data[0])
+            except:
+                continue
+        return table_data
+    except Exception as e:
+        print(e)
+        return []
+    
 
 
 def getUA():
@@ -236,40 +293,6 @@ def getUA():
     "Mozilla/5.0 (iPad; CPU OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/109.0.5414.83 Mobile/15E148 Safari/604.1",
     "Mozilla/5.0 (iPod; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/109.0.5414.83 Mobile/15E148 Safari/604.1"]
     return random.choice(ua)
-
-
-def bypassURL(url):
-    try:
-        bypassed_link = bypasser.bypass(url)
-        print(bypassed_link)
-        return bypassed_link, "Success!"
-    except bypasser.main.BypasserNotFoundError:
-        return None, "ERROR: The URL you have send is not supported yet."
-    except bypasser.main.UrlConnectionError:
-        return None, "ERROR: The URL you have send is unreachable."
-    except Exception as e:
-        return None, f"ERROR: {str(e)}"
-
-@app.route("/api/urlbypass/")
-@app.route("/api/urlbypass")
-def apibypassurl():
-    Ok=sendIP(request, "api-urlbypass")
-   # return "Mass usage isn't allowed yet!"
-  #  if Ok.strip() in os.environ.get("BANNED_IP").split(" ") or "python-requests" in request.headers.get('User-Agent'):
-   #     return "Fuck You Bitch, First ask @ThisIsVaibhavChandra" 
-    if request.args.get("url"):
-        url=request.args.get("url").strip()
-        if url.startswith("https://")==False and url.startswith("http://")==False:
-            url="http://"+url
-        bypassed, msg=bypassURL(url)
-        print(url)
-        print(bypassed)
-        if bypassed!=None:
-            return jsonify(status=True,url=bypassed, message=msg)
-        else:
-            return jsonify(status=False,url=bypassed, message=msg)
-    else:
-        return jsonify(status=False,url=None, message=None)
 
 
 
