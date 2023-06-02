@@ -1,7 +1,7 @@
 
 import requests, time, os, threading, socket, re, urllib3, sys, random
 from bs4 import BeautifulSoup
-import PyBypass as bypasser
+
 urllib3.disable_warnings()
 from flask import *
 
