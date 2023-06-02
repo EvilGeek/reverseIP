@@ -41,12 +41,12 @@ def api():
         try:
             data=reverse(ip)
         
-        if data==None:
-            return jsonify(status=False, data=None)
-        elif data==[]:
-            return jsonify(status=False, data=None)
-        else:
-            return jsonify(status=True, data=data)
+            if data==None:
+                return jsonify(status=False, data=None)
+            elif data==[]:
+                return jsonify(status=False, data=None)
+            else:
+                return jsonify(status=True, data=data)
         except Exception as e:
             print(str(e))
     else:
