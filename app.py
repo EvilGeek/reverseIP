@@ -40,14 +40,15 @@ def api():
         data=None
         try:
             data=reverse(ip)
-        except Exception as e:
-            print(str(e))
+        
         if data==None:
             return jsonify(status=False, data=None)
         elif data==[]:
             return jsonify(status=False, data=None)
         else:
             return jsonify(status=True, data=data)
+        except Exception as e:
+            print(str(e))
     else:
         return jsonify(status=False, data=None)
 
@@ -129,17 +130,21 @@ def t3(ip):
         
     }
     post="remoteAddress="+ip+"&key=&_="
-    req=requests.post(u, headers=h, data=post, verify=False).json()
-    #print(req)
-    reip=[]
-    d=[]
-    if req.get("status")=="Success":
-        d=req.get("domainArray")
-    for j in d:
-        reip.append(j[0])
-    if reip!=[]:
-        return reip
-    else:
+    try:
+        req=requests.post(u, headers=h, data=post, verify=False).json()
+        #print(req)
+        reip=[]
+        d=[]
+        if req.get("status")=="Success":
+            d=req.get("domainArray")
+        for j in d:
+            reip.append(j[0])
+        if reip!=[]:
+            return reip
+        else:
+            return []
+    except Exception as e:
+        print(e)
         return []
 
 
@@ -168,15 +173,20 @@ def t2(ip):
     "cookie": "inputbox_urls\u003d%5B%221.1.1.1%22%5D"
     }
     reip=[]
-    reqs = requests.post(url, headers=h, data="query="+ip, verify=False)
-    soup = BeautifulSoup(reqs.text, 'html.parser')
-    for link in soup.find_all("td"):
-        if "1.1.1.1" not in link.text:
-            reip.append(link.text)
-   # print(reip)
-    if reip != []:
-        return reip
-    else:
+    
+    try: 
+        reqs = requests.post(url, headers=h, data="query="+ip, verify=False)
+        soup = BeautifulSoup(reqs.text, 'html.parser')
+        for link in soup.find_all("td"):
+            if "1.1.1.1" not in link.text:
+                reip.append(link.text)
+       # print(reip)
+        if reip != []:
+            return reip
+        else:
+            return []
+    except Exception as e:
+        print(e)
         return []
 
 
