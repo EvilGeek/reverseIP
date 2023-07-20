@@ -57,7 +57,7 @@ def reverse(ip):
     d1=t1(ip)
     d2=t2(ip)
     d3=t3(ip)
-    d4=t4(ip)
+    #d4=t4(ip)
     d5=t5(ip)
     d6=t6(ip)
     for i in d1:
@@ -69,9 +69,9 @@ def reverse(ip):
     for i in d3:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
-    for i in d4:
-        if i not in data and "google" not in i and "cloudflare" not in i:
-            data.append(i)
+    #for i in d4:
+        #if i not in data and "google" not in i and "cloudflare" not in i:
+            #data.append(i)
     for i in d5:
         if i not in data and "google" not in i and "cloudflare" not in i:
             data.append(i)
