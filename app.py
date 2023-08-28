@@ -311,7 +311,7 @@ def getUA():
 
 @app.errorhandler(404)
 def not_found(e):
-    return "Fuck you bitch, ask @ThisIsVaibhavChandra first!" 
+    return "Ask @ThisIsVaibhavChandra first!" 
 if __name__=="__main__":
     app.run()
     
